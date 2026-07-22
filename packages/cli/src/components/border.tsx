@@ -1,21 +1,22 @@
 export const EmptyBorder = {
-  topLeft: "╭",
-  topRight: "╮",
-  bottomLeft: "╰",
-  bottomRight: "╯",
-  horizontal: "─",
-  vertical: "│",
-  topT: "┬",
-  bottomT: "┴",
-  leftT: "├",
-  rightT: "┤",
-  cross: "┼",
-};
+  topLeft: "",
+  bottomLeft: "",
+  vertical: "",
+  topRight: "",
+  bottomRight: "",
+  horizontal: " ",
+  bottomT: "",
+  topT: "",
+  cross: "",
+  leftT: "",
+  rightT: "",
+}
 
 export const SplitBorder = {
-  border: ["left", "right"] as const,
+  border: ["left" as const, "right" as const],
   customBorderChars: {
     ...EmptyBorder,
-    vertical: "┃", // Makes the center divider stand out
+    vertical: "┃",
+    bottomLeft: "╹"
   },
-};
+}
