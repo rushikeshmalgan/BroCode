@@ -1,11 +1,14 @@
 import { createCliRenderer } from "@opentui/core";
 import { createRoot } from "@opentui/react";
-
+import { ToastProvider } from "./providers";
 import { Header } from "./components/header";
 import { InputBar } from "./components/input-bar";
+import { KeyboardLayerProvider } from "./providers/keyboard-layer";
 
 function App() {
   return (
+    <KeyboardLayerProvider>
+    <ToastProvider>
     <box
       width="100%"
       height="100%"
@@ -31,6 +34,8 @@ function App() {
         </box>
       </box>
     </box>
+    </ToastProvider>
+    </KeyboardLayerProvider>
   );
 }
 

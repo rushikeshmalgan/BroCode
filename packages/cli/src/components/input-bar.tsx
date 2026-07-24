@@ -8,6 +8,8 @@ import { StatusBar } from "./status-bar";
 import { CommandMenu } from "./commands-menu";
 import { UseCommandMenu } from "./commands-menu/use-command-menu";
 import { resolve } from "bun";
+import { useToast } from "../providers";
+import { useKeyboardLayer } from "../providers/keyboard-layer";
 
 type Props = {
     onSubmit: (text: string) =>void;
@@ -25,6 +27,8 @@ export function InputBar({onSubmit, disabled = false} : Props){
     const textareaRef = useRef<TextareaRenderable>(null);
     const onSubmitRef = useRef<() => void>(() =>{});
     const renderer = useRenderer();
+    const toast = useToast();
+    const { isTopLayer, setResponder } = useKeyboardLayer();
 
     const {
         showCommandMenu,
@@ -71,12 +75,13 @@ export function InputBar({onSubmit, disabled = false} : Props){
         if(command.action){
             command.action({
                 exit : () => renderer.destroy(),
+                toast
 
             });
         }else {
             textarea.insertText(command.value+ "");
         }
-    }, [renderer]);
+    }, [renderer, toast]);
 
      const handleCommandExecute = useCallback((index: number) =>{
         const command = resolveCommand(index);
@@ -102,6 +107,20 @@ export function InputBar({onSubmit, disabled = false} : Props){
         }
         handleSubmit();
     };
+
+    useEffect(() => {
+        setResponder("base", () =>{
+            if (disabled) return false;
+
+            const textarea = textareaRef.current;
+            if (textarea && textarea.plainText.length > 0){
+                textarea.setText("");
+                return true;
+            }
+            return false;
+        })
+        return () => setResponder("base", null);
+    }, [disabled, setResponder])
 
 
     return (
