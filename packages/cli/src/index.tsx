@@ -4,10 +4,12 @@ import { ToastProvider } from "./providers";
 import { Header } from "./components/header";
 import { InputBar } from "./components/input-bar";
 import { KeyboardLayerProvider } from "./providers/keyboard-layer";
+import { DialogProvider } from "./providers/dialog";
 
 function App() {
   return (
     <KeyboardLayerProvider>
+      <DialogProvider>
     <ToastProvider>
     <box
       width="100%"
@@ -35,6 +37,7 @@ function App() {
       </box>
     </box>
     </ToastProvider>
+    </DialogProvider>
     </KeyboardLayerProvider>
   );
 }

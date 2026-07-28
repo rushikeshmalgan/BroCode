@@ -101,7 +101,7 @@ function Toast({currentToast}: ToastProps){
         top={2}
         right={2}
         width={Math.max(1, Math.min(60, width-6))}
-        paddingLeft={2}ww
+        paddingLeft={2}
         paddingRight={2}
         paddingTop={1}
         paddingBottom={1}

@@ -10,6 +10,7 @@ import { UseCommandMenu } from "./commands-menu/use-command-menu";
 import { resolve } from "bun";
 import { useToast } from "../providers";
 import { useKeyboardLayer } from "../providers/keyboard-layer";
+import { useDialog } from "../providers/dialog";
 
 type Props = {
     onSubmit: (text: string) =>void;
@@ -28,6 +29,7 @@ export function InputBar({onSubmit, disabled = false} : Props){
     const onSubmitRef = useRef<() => void>(() =>{});
     const renderer = useRenderer();
     const toast = useToast();
+    const dialog = useDialog();
     const { isTopLayer, setResponder } = useKeyboardLayer();
 
     const {
@@ -75,7 +77,8 @@ export function InputBar({onSubmit, disabled = false} : Props){
         if(command.action){
             command.action({
                 exit : () => renderer.destroy(),
-                toast
+                toast,
+                dialog,
 
             });
         }else {
@@ -164,7 +167,7 @@ export function InputBar({onSubmit, disabled = false} : Props){
     )}
     <textarea
     ref={textareaRef}
-    focused={!disabled}
+    focused={!disabled && (isTopLayer("base") || isTopLayer("command"))}
     keyBindings={TEXTAREA_KEY_BINDINGS}
     onContentChange={handleTextareaContentChange}
     placeholder={`Ask anything ... "Fix a bug in the database`}
