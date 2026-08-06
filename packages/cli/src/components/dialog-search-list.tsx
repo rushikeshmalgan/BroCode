@@ -16,7 +16,7 @@ type DialogSearchListPropos<T> = {
     emptyText?: string;
 }
 
-export function DialogSearchListPropos<T>({
+export function DialogSearchList<T>({
     items,
     onSelect,
     onHighLight,
@@ -107,8 +107,17 @@ export function DialogSearchListPropos<T>({
                         return(
                             <box
                             key = {getKey(item)}
+                            flexDirection="row"
+                            height={1}
+                            overflow="hidden"
+                            backgroundColor={isSelected ? "#89B4FA" : undefined} 
+                            onMouse={() =>{
+                                setSelectedIndex(i);
+                                if(onHighLight) onHighLight(item);
+                            }}
+                            onMouseDown={() => onSelect(item)}
                             >
-
+                                {renderItem(item, isSelected)}
                             </box>
                         )
                     })}
