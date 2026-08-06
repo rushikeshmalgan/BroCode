@@ -5,7 +5,7 @@ import { useKeyboardLayer } from "../providers/keyboard-layer";
 
 const MAX_VISIBLE_ITEMS = 6;
 
-type DialogSearchListPropos<T> = {
+type DialogSearchListProps<T> = {
     items: T[];
     onSelect: (item: T) => void;
     onHighLight?: (item: T) => void;
@@ -25,7 +25,7 @@ export function DialogSearchList<T>({
     getKey,
     placeholder = "Search",
     emptyText = "No result",
-}: DialogSearchListPropos<T>) {
+}: DialogSearchListProps<T>) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [searchValue, setSearchValue] = useState("");
     const inputRef = useRef<InputRenderable>(null);
@@ -60,7 +60,7 @@ export function DialogSearchList<T>({
             }
         }else if(key.name === "up"){
             setSelectedIndex((i) =>{
-                const newIndex = Math.min(0, i-1);
+                const newIndex = Math.max(0, i-1);
                 const sb = scrollRef.current;
                 if(sb && newIndex < sb.scrollTop){
                     sb.scrollTo(newIndex);
@@ -69,7 +69,7 @@ export function DialogSearchList<T>({
                 if(item && onHighLight) onHighLight(item);
                 return newIndex;
             });
-        } else if(key.name === "dowm"){
+        } else if(key.name === "down"){
             setSelectedIndex((i) =>{
                 const newIndex = Math.min(filtered.length-1, i+1);
                 const sb = scrollRef.current;
